@@ -1,0 +1,22 @@
+input{
+    color: white;
+    background-color: black;
+}
+input[type="text"], input[type="password"], input[type="number"]{
+    width:200px;
+    height: 35px;
+}
+input[type="range"]{
+    width: 200px;
+}
+.selection{
+    background-color: blueviolet;
+    width: 100px;
+    height: 25px;
+    color: white;
+}
+input[type="radio"]{
+    background-color: rgb(43, 0, 255);
+    width: 10px;
+    margin: 10px;
+}

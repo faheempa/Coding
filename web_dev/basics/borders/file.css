@@ -1,0 +1,48 @@
+p{
+    height: 150px;
+    width: 250px;
+}
+
+#p1 {
+    border-color: black;
+    border-width: 10px;
+    border-style: solid;
+}
+#p2 {
+    border-color: red;
+    border-width: 10px;
+    border-style: double;
+    /* border is included in the given width */
+    box-sizing: border-box;
+}
+#p3 {
+    border-color: blue;
+    border-width: 10px;
+    border-style: dotted;
+}
+#p4 {
+    border-color: violet;
+    border-width: 10px;
+    /* horizontal - soloid and vertical - double */
+    border-style: solid double;
+}
+#p5{
+    /* size color style */
+    border: 10px indigo inset;
+}
+#p6{
+    border-left: 10px red dashed;
+    border-right: 10px blue dotted;
+    border-top: 5px violet solid;
+    border-bottom: 15px green groove;
+}
+#p7{
+    border: 10px rebeccapurple dashed;
+    border-radius: 25px;
+}
+#p8{
+    border: 10px rgb(30, 158, 190) double;
+    border-radius: 100%;
+    padding: 50px;
+    text-align: center;
+}

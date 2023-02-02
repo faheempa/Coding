@@ -1,0 +1,8 @@
+{
+    "python.formatting.provider": "yapf",
+    "files.associations": {
+        "cstdio": "c",
+        "*.tcc": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}

@@ -1,0 +1,70 @@
+# from threading import Thread, Lock
+# import time
+
+# data = 0
+# # global data
+
+
+# def increment(lock):
+#     global data
+#     # using lock only one thead can exicute the block at a time, it will prevent race condition
+#     with lock:
+#         data_copy = data
+#         time.sleep(1)
+#         data_copy += 1
+#         data = data_copy
+
+
+# lock = Lock()
+# thread1 = Thread(target=increment, args=(lock,))
+# thread2 = Thread(target=increment, args=(lock,))
+
+# print("before data :", data)
+
+# thread1.start()
+# thread2.start()
+
+# # to hold the main function until the complete exicution of the threads
+# thread1.join()
+# thread2.join()
+
+# print("after data :", data)
+
+# print("End of main")
+
+
+# 2
+from threading import Thread, Lock, current_thread
+from queue import Queue
+import time
+
+def process(q, lock, num):
+    while True:
+        item = q.get()
+        with lock:
+            time.sleep(0.05)
+            print(f"item =  {item} current thread = {current_thread().name}")
+            num-=1
+        q.task_done()
+        # its like popping the element from the queue
+
+
+if __name__ == "__main__":
+
+    q = Queue()
+    # creating a queue
+    num = 20
+    lock = Lock()
+    for i in range(num):
+        thread = Thread(target=process, args=(q,lock, num))
+        thread.daemon = True 
+        # to stop the exicution of the thread when the main is done
+        # when can also use a break with appropiate condition
+        thread.start()
+
+    for i in range(num):
+        q.put(i)
+        # enqueuing an element to the queue
+
+    q.join()
+    print("End of main")

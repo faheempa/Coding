@@ -1,0 +1,104 @@
+html {
+    font-size: 10px;
+}
+
+p {
+    /* this will be 20px */
+    font-size: 1.5rem;
+}
+
+div {
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+    font-size: 2rem;
+    background-color: blue;
+}
+
+/* first section */
+section:nth-of-type(1) #div1 {
+    /* color opacity, fourth value, 0 being no color and 1 being full visibility */
+    background-color: rgb(11, 235, 19, 1);
+}
+
+section:nth-of-type(1) #div2 {
+    background-color: rgba(11, 235, 19, 0.5);
+}
+
+section:nth-of-type(1) #div3 {
+    background-color: rgba(11, 235, 19, 0.2);
+}
+
+section:nth-of-type(1) #div4 {
+    background-color: rgba(11, 235, 19, 0);
+}
+
+/* second section */
+section:nth-of-type(2) #div1 {
+    background-color: rgb(11, 235, 19);
+    opacity: 1;
+}
+
+section:nth-of-type(2) #div2 {
+    background-color: rgb(11, 235, 19);
+    opacity: 0.5;
+}
+
+section:nth-of-type(2) #div3 {
+    background-color: rgb(11, 235, 19);
+    opacity: 0.2;
+}
+
+section:nth-of-type(2) #div4 {
+    background-color: rgba(11, 235, 19);
+    opacity: 0;
+}
+
+/* section 3 */
+section:nth-of-type(3) #div2 {
+    background-color: aqua;
+    position: static;
+}
+
+/* section 4 */
+section:nth-of-type(4) #div2 {
+    background-color: aqua;
+    position: relative;
+    top: 2rem;
+    left: -2rem;
+    /* negative represents opposite direction */
+}
+
+/* section 5 */
+section:nth-of-type(5) #div2 {
+    background-color: aqua;
+    position: absolute;
+    top: 1rem;
+    left: 25rem;
+}
+
+/* section 6 */
+section:nth-of-type(6) {
+    position: relative;
+}
+
+section:nth-of-type(6) #div2 {
+    background-color: aqua;
+    position: absolute;
+    top: 2rem;
+    left: 15rem;
+}
+
+/* section 7 */
+section:nth-of-type(7) #div2 {
+    background-color: aqua;
+    position: fixed;
+    left: 25rem;
+}
+/* section 8 */
+section:nth-of-type(8) #div2 {
+    background-color: aqua;
+    top: 20px;
+    position: sticky;
+    position: -webkit-sticky;
+}

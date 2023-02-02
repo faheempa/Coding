@@ -1,0 +1,67 @@
+
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    color: #606060; 
+    font-size: 20px;
+    font-family: 'Roboto Mono', monospace;
+}
+p::selection{
+    color: red;
+}
+
+.heading {
+    font-size: 26px;
+    font-weight: bold;
+    width: 400px;
+    color: black;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.info {
+    margin-bottom: 20px;
+}
+
+.some_name {
+    margin-bottom: 20px;
+    text-decoration: blue underline wavy 2px;
+    letter-spacing: 10px;
+}
+
+.body {
+    line-height: 30px;
+    width: 400px;
+    margin-bottom: 100px;
+    line-height: 2;
+}
+
+.ending {
+    color: white;
+    background-color: rgba(235, 30, 30, 0.764);
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    margin-bottom: 100px;
+}
+.ending::first-line{
+    font-size: 50px;
+    
+}
+
+#shop_now:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+p:nth-of-type(1){
+    background-color: yellow;
+}
+p:nth-of-type(2n){
+    background-color: aqua;
+}
+p::first-letter{
+    font-size: 50px;
+}
