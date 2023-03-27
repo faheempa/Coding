@@ -1,0 +1,74 @@
+:root {
+    font-size: 10px;
+}
+
+* {
+    font-size: 2rem;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+body{
+    background-color: green;
+}
+
+.container{
+    padding: 3rem;
+    height: 30rem;
+    width:50rem;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#p1Display, #p2Display, #seperator{
+    font-size: 10rem;
+}
+
+button{
+    background-color: rgb(47, 40, 248);
+    color: white;
+    padding: 1rem;
+    border: none;
+    transition: border 0.2s;
+    box-shadow: 0.3rem 0.3rem 1rem black;
+}
+button:hover{
+    background-color: rgb(193, 21, 255);
+}
+#winscore{
+    outline: none;
+    border-radius: 1rem;
+    font-size: 2.5rem;
+    padding: 0.5rem;
+}
+
+.red {
+    color: red;
+}
+.green {
+    color: green;
+}
+.grey{
+    background-color: grey;
+}
+
+
+/* my css classes*/
+.-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.-shadow {
+    box-shadow: 0.5rem 0.5rem 1rem black;
+}
+
+.-hide {
+    display: none;
+}
