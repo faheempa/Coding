@@ -1,0 +1,146 @@
+.gradient-bg {
+    background: -moz-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background: -webkit-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background: -o-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background: -ms-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background: radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+}
+
+.gpt-navbar {
+    padding: 2rem 5vw;
+    height: 90px;
+}
+
+.gpt-nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+}
+
+.gpt-nav-links .gpt-logo {
+    width: 70px;
+}
+
+.gpt-nav-links .text {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+    margin-right: 2rem;
+    color: white;
+    max-width: 90rem;
+}
+
+.gpt-nav-sign {
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+}
+
+.gpt-nav-sign a {
+    color: white;
+}
+
+.gpt-nav-sign button {
+    color: white;
+    padding: 1.2rem 2rem;
+    background: #FF4820;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    margin-left: 2rem;
+}
+
+.gpt-navbar-menu {
+    margin-left: 1rem;
+    display: none;
+    position: relative;
+}
+
+.gpt_navbar-menu svg {
+    cursor: pointer;
+}
+
+.gpt-navbar-menu-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+
+    text-align: end;
+    background: rgb(0, 0, 0);
+    padding: 3rem;
+    position: absolute;
+    color: white;
+    top: 6rem;
+    left: -23rem;
+    line-height: 5rem;
+    border-radius: 2rem;
+    width: 25rem;
+}
+
+.gpt-menu-container-sign {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .gpt-navbar-menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 3rem;
+    }
+
+    .gpt-nav-links .text {
+        display: none;
+    }
+
+    .gpt-navbar {
+        display: flex;
+    }
+}
+
+@media (max-width: 500px) {
+    .gpt-nav-sign {
+        display: none;
+    }
+
+    .gpt-menu-container-sign {
+        display: block;
+    }
+
+    .gpt-nav-links .gpt-logo {
+        width: 50px;
+    }
+
+    .gpt-navbar {
+        height: 6rem;
+    }
+
+    .gpt-navbar-menu-container {
+        line-height: 4rem;
+    }
+}
+
+.gpt-nav-links .text p,
+.gpt-nav-sign p {
+    --b: 0.1em;
+    /* the thickness of the line */
+    --c: #ff6a00;
+    /* the color */
+
+    padding-block: var(--b);
+    background:
+        linear-gradient(var(--c) 50%, #000 0) 0% calc(100% - var(--_p, 0%))/100% 200%,
+        linear-gradient(var(--c) 0 0) 0% var(--_p, 0%)/var(--_p, 0%) var(--b) no-repeat;
+    -webkit-background-clip: text, padding-box;
+    background-clip: text, padding-box;
+    transition: .05s var(--_s, 0s) linear, background-size .3s calc(.3s - var(--_s, 0s));
+}
+
+.gpt-nav-links .text p:hover,
+.gpt-nav-sign p:hover {
+    --_p: 100%;
+    --_s: .3s;
+}

@@ -1,0 +1,48 @@
+:root {
+    font-size: 10px;
+}
+
+* {
+    font-size: 2rem;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+body{
+    background-color: rgb(0, 0, 0);
+}
+
+.container{
+    height: 45rem;
+    width: 75%;
+    max-width: 70rem;
+    background: url("image/1.jpg") center/cover fixed no-repeat;
+    border: 1rem solid white;
+}
+.btn{
+    padding: 0.5rem 1rem;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    position: absolute;
+}
+.left-btn{
+    top: 50%;
+    left: 0%;
+    transform: translateX(-200%);
+}
+.right-btn{
+    top: 50%;
+    left: 100%;
+    transform: translateX(100%);
+}
+
+
+/* my css classes*/
+.-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}

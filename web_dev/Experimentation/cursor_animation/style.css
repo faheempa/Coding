@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;500;700&display=swap');
+:root {
+    font-size: 10px;
+}
+
+* {
+    font-size: 2rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+body {
+    background-color: black;
+    cursor: none;
+    padding: 0rem 5%;
+}
+.cursor{
+    z-index: 999;
+    position: fixed;
+    height: 2rem;
+    width: 2rem;
+    background: red;
+    border-radius: 50%;
+    box-shadow: 0 0 2rem red, 0 0 6rem red, 0 0 10rem red;
+    transform: translate(-50%, -50%);
+    animation: colors 5s infinite;
+}
+@keyframes colors {
+    0%{
+        filter: hue-rotate(0deg);
+    }
+    100%{
+        filter: hue-rotate(360deg);
+    }
+}.cursor:before{
+    content: "";
+    position: absolute;
+    width: 4rem;
+    height: 4rem;
+    background-color: red;
+    border-radius: 50%;
+    transform: translate(-25%, -25%);
+    opacity: 0.2;
+    
+}
+
+
+
+
+
+/* my css classes*/
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.shadow {
+    box-shadow: 0.5rem 0.5rem 1rem black;
+}
+
+.hide {
+    display: none;
+}
+.btn{
+    color: rgb(28, 7, 47);
+    font-weight: 500;
+    padding: 1rem 2rem;
+    border-radius: 10%;
+    background-color: aquamarine;
+    margin: 1rem;
+}
+

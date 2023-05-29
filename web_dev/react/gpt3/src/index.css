@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+    font-size: 10px;
+    --font-family: 'Manrope', sans-serif;
+    --gradient-text: linear-gradient(89.97deg, #AE67FA 1.84%, #F49867 102.67%);
+    --gradient-bar: linear-gradient(103.22deg, #AE67FA -13.86%, #F49867 99.55%);
+    --color-bg: #040C18;
+    --color-footer: #031B34;
+    --color-blog: #042c54;
+    --color-text: #81AFDD;
+    --color-subtext: #FF8A71;
+}
+
+/* Animations */
+.scale-up-center {
+    -webkit-animation: scale-up-center .4s cubic-bezier(.39, .575, .565, 1.000) both;
+    animation: scale-up-center .4s cubic-bezier(.39, .575, .565, 1.000) both
+}
+
+@-webkit-keyframes scale-up-center {
+    0% {
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+@keyframes scale-up-center {
+    0% {
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+.scale-down-center {
+    -webkit-animation: scale-down-center .4s cubic-bezier(.25, .46, .45, .94) both;
+    animation: scale-down-center .4s cubic-bezier(.25, .46, .45, .94) both
+}
+
+@-webkit-keyframes scale-down-center {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+
+    100% {
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+}
+
+@keyframes scale-down-center {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+
+    100% {
+        -webkit-transform: scale(.5);
+        transform: scale(.5)
+    }
+}
+
+.gradient-text {
+    background: var(--gradient-text);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-padding {
+    padding: 4rem 6rem;
+}
+
+.section-margin {
+    margin: 4rem 6rem;
+}
+
+@media (width<700px) {
+    .section-padding {
+        padding: 4rem;
+    }
+    
+    .section-margin {
+        margin: 4rem;
+    }
+}
+@media (width<550px) {
+    .section-padding {
+        padding: 4rem 2rem;
+    }
+    
+    .section-margin {
+        margin: 4rem 2rem;
+    }
+}
