@@ -1,0 +1,24 @@
+flutter create --org com.abc notes
+cd notes
+flutter pub add firebase_core
+flutter pub add firebase_auth
+flutter pub add firebase_analytics
+flutter pub add cloud_firestore
+flutter pub add firebase_storage
+flutter pub add firebase_messaging
+flutter doctor
+flutter run --debug
+
+make a new project in firebase
+do the given steps
+
+goto notes\android\app\build.gradle
+change "minSdkVersion flutter.minSdkVersion" to "minSdkVersion 19"
+add this to dependencies : implementation 'com.android.support:multidex:1.0.3'
+
+flutter clean android
+flutter pub get
+flutter run --debug
+
+
+
