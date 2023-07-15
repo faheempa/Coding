@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/constants/routes.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -104,7 +105,9 @@ class _RegisterViewState extends State<RegisterView> {
                       )
                       .then((value) => {
                             Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/home', (route) => false)
+                              homeRoute,
+                              (route) => false,
+                            )
                           });
                 });
               } on FirebaseAuthException catch (e) {
@@ -116,7 +119,10 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 );
-                return;
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Error: ${e.toString()}")),
+                );
               }
             },
             child: const Text('Register'),
@@ -124,7 +130,7 @@ class _RegisterViewState extends State<RegisterView> {
           TextButton(
             onPressed: () {
               Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/login', (route) => false);
+                  .pushNamedAndRemoveUntil(loginRoute, (route) => false);
             },
             child: const Text('Already have an account? Login'),
           ),

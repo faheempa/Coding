@@ -1,10 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/constants/routes.dart';
 import 'package:notes/views/home.dart';
-import 'package:notes/views/login.dart';
-import 'package:notes/views/register.dart';
-import 'package:notes/views/verify_email.dart';
-
 import 'firebase_options.dart';
 
 void main() {
@@ -37,12 +34,7 @@ void main() {
       useMaterial3: true,
     ),
     home: const StartApp(),
-    routes: {
-      '/login': (context) => const LoginView(),
-      '/verify_email': (context) => const VerifyEmail(),
-      '/register': (context) => const RegisterView(),
-      '/home': (context) => const HomeView(),
-    },
+    routes: appRoutes,
   ));
 }
 
@@ -59,12 +51,6 @@ class StartApp extends StatelessWidget {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done: // if firebase is done initializing
-            // if (user == null) {
-            //   return const LoginView();
-            // }
-            // if (user.emailVerified != true) {
-            //   return const VerifyEmail();
-            // }
             return const HomeView();
           default: // if firebase is not done initializing
             return const Center(

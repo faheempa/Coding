@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/constants/routes.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -30,7 +31,8 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      Navigator.of(context).pushNamedAndRemoveUntil('/home/', (route) => false);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(homeRoute, (route) => false);
     }
     return Scaffold(
       appBar: AppBar(
@@ -59,6 +61,8 @@ class _LoginViewState extends State<LoginView> {
           ),
           TextButton(
             onPressed: () async {
+              // through an exception for testing
+
               if (_email.text.isEmpty || _password.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -83,7 +87,7 @@ class _LoginViewState extends State<LoginView> {
                           _password.text = '',
                           // focus out
                           Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/home', (route) => false)
+                              homeRoute, (route) => false)
                         });
               } on FirebaseAuthException catch (e) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -94,6 +98,10 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Error: ${e.toString()}")),
+                );
               }
             },
             child: const Text('Login'),
@@ -101,7 +109,7 @@ class _LoginViewState extends State<LoginView> {
           TextButton(
             onPressed: () {
               Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/register', (route) => false);
+                  .pushNamedAndRemoveUntil(registerRoute, (route) => false);
             },
             child: const Text('No account? Register here'),
           ),

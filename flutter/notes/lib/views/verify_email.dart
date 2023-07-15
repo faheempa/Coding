@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/constants/routes.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -22,14 +23,22 @@ class _VerifyEmailState extends State<VerifyEmail> {
             onPressed: () async {
               try {
                 final user = FirebaseAuth.instance.currentUser;
-                await user?.sendEmailVerification().then((value) => {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                              'Verification email was sent, please check your mail.'),
-                        ),
-                      )
-                    });
+                if (user?.emailVerified == false) {
+                  await user?.sendEmailVerification().then((value) => {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Verification email was sent, please check your mail.'),
+                          ),
+                        )
+                      });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Your email is already verified.'),
+                    ),
+                  );
+                }
               } on FirebaseAuthException catch (e) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -38,7 +47,10 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     ),
                   ),
                 );
-                return;
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Error: ${e.toString()}")),
+                );
               }
             },
             style: TextButton.styleFrom(
@@ -47,8 +59,19 @@ class _VerifyEmailState extends State<VerifyEmail> {
             child: const Text("Verify Email")),
         TextButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil("/home", (route) => false);
+              final user = FirebaseAuth.instance.currentUser;
+              if (user?.emailVerified == true) {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(homeRoute, (route) => false);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Please verify your email address.',
+                    ),
+                  ),
+                );
+              }
             },
             style: TextButton.styleFrom(
                 foregroundColor: const Color.fromARGB(255, 0, 0, 0),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/constants/routes.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -34,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
               IconButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .pushNamedAndRemoveUntil("/login", (route) => false);
+                      .pushNamedAndRemoveUntil(loginRoute, (route) => false);
                 },
                 icon: const Icon(Icons.login),
               ),
@@ -69,14 +70,14 @@ Future<bool> showLogoutDialog(BuildContext context) {
         actions: [
           TextButton(
               onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: const Text("Yes")),
-          TextButton(
-              onPressed: () {
                 Navigator.of(context).pop(false);
               },
               child: const Text("No")),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: const Text("Yes")),
         ],
       );
     },
