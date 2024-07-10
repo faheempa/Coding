@@ -1,6 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/constants/routes.dart';
+import 'package:notes/services/auth/auth_exceptions.dart';
+import 'package:notes/services/auth/auth_service.dart';
+import 'package:notes/utils/functions.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -68,72 +70,55 @@ class _RegisterViewState extends State<RegisterView> {
           ),
           TextButton(
             onPressed: () async {
-              if (_email.text.isEmpty ||
-                  _password.text.isEmpty ||
-                  _confirmPassword.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please fill in all fields'),
-                  ),
-                );
+              if (_email.text.isEmpty || _password.text.isEmpty || _confirmPassword.text.isEmpty) {
+                popUpFromBottom('Please fill in all fields', context);
                 return;
               }
               if (_password.text != _confirmPassword.text) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Password does not match'),
-                  ),
-                );
+                popUpFromBottom('Password does not match', context);
                 return;
               }
               try {
-                await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                  email: _email.text,
-                  password: _password.text,
-                )
-                    .then((value) async {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('User created successfully'),
-                    ),
-                  );
-                  await FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                        email: _email.text,
-                        password: _password.text,
-                      )
-                      .then((value) => {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                              homeRoute,
-                              (route) => false,
-                            )
-                          });
-                });
-              } on FirebaseAuthException catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      // capitalize the error code and replace "-" with " "
-                      'Registration failed: ${e.code[0].toUpperCase() + e.code.substring(1).replaceAll("-", " ")}',
-                    ),
-                  ),
-                );
+                await AuthService.instance()
+                    .createUser(email: _email.text, password: _password.text)
+                    .then((value) => {
+                          if (value == null)
+                            {
+                              popUpFromBottom('User already exists', context),
+                            }
+                          else
+                            {popUpFromBottom('User created successfully', context)}
+                        })
+                    .then((value) => {
+                          Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (route) => false),
+                        });
+              } on InvalidEmailAuthException {
+                popUpFromBottom('Invalid Email', context);
+              } on EmailAlreadyInUseAuthException {
+                popUpFromBottom('Email already in use', context);
+              } on WeakPasswordAuthException {
+                popUpFromBottom('Password is too weak', context);
+              } on GeneralAuthException {
+                popUpFromBottom('Authentication Error', context);
               } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Error: ${e.toString()}")),
-                );
+                popUpFromBottom("Error: ${e.toString()}", context);
               }
             },
             child: const Text('Register'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(loginRoute, (route) => false);
+              Navigator.of(context).pop();
             },
             child: const Text('Already have an account? Login'),
           ),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, (route) => false);
+              },
+              style:
+                  TextButton.styleFrom(foregroundColor: const Color.fromARGB(255, 0, 0, 0), backgroundColor: const Color.fromARGB(255, 32, 255, 170)),
+              child: const Text("Go Home")),
         ],
       ),
     );

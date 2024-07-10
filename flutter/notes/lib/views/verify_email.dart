@@ -1,6 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/constants/routes.dart';
+import 'package:notes/services/auth/auth_exceptions.dart';
+import 'package:notes/services/auth/auth_service.dart';
+import '../utils/functions.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({super.key});
@@ -18,65 +20,43 @@ class _VerifyEmailState extends State<VerifyEmail> {
         backgroundColor: const Color.fromARGB(255, 32, 255, 170),
       ),
       body: Column(children: [
-        const Text("Please verify your email address"),
+        const Text("we have sent you a verification email, please check your mail"),
+        const Text("if you have not received the email, please click the button below to resend it"),
         TextButton(
             onPressed: () async {
               try {
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified == false) {
-                  await user?.sendEmailVerification().then((value) => {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                                'Verification email was sent, please check your mail.'),
-                          ),
-                        )
-                      });
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Your email is already verified.'),
-                    ),
-                  );
-                }
-              } on FirebaseAuthException catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Error: ${e.code[0].toUpperCase() + e.code.substring(1).replaceAll("-", " ")}',
-                    ),
-                  ),
-                );
+                await AuthService.instance().sendEmailVerification().then((value) => {
+                      popUpFromBottom("Verification email was sent, please check your mail.", context),
+                    });
+              } on GeneralAuthException {
+                popUpFromBottom("Something Went Wrong", context);
               } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Error: ${e.toString()}")),
-                );
+                popUpFromBottom("Error: ${e.toString()}", context);
               }
             },
             style: TextButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-                backgroundColor: const Color.fromARGB(255, 32, 255, 170)),
-            child: const Text("Verify Email")),
+              foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+              backgroundColor: const Color.fromARGB(255, 32, 255, 170),
+            ),
+            child: const Text("Resent Email")),
         TextButton(
             onPressed: () {
-              final user = FirebaseAuth.instance.currentUser;
-              if (user?.emailVerified == true) {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil(homeRoute, (route) => false);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Please verify your email address.',
-                    ),
-                  ),
-                );
-              }
+              Navigator.of(context).pop();
             },
             style: TextButton.styleFrom(
-                foregroundColor: const Color.fromARGB(255, 0, 0, 0),
-                backgroundColor: const Color.fromARGB(255, 32, 255, 170)),
-            child: const Text("Done"))
+              foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+              backgroundColor: const Color.fromARGB(255, 32, 255, 170),
+            ),
+            child: const Text("Go back")),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (route) => false);
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+              backgroundColor: const Color.fromARGB(255, 32, 255, 170),
+            ),
+            child: const Text("Login")),
       ]),
     );
   }

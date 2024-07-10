@@ -28,7 +28,7 @@ print(s2.loc[["mon", "wed"]])
 print("-"*50)
 
 # 3 - csv file
-b=pd.read_csv("data.csv")
+b=pd.read_csv("data")
 print(b)
 print(b.loc[0])
 print(b.loc[[0,4,7]])

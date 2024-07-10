@@ -1,6 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/constants/routes.dart';
+import 'package:notes/services/auth/auth_service.dart';
+import 'package:notes/utils/functions.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -10,53 +11,71 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  bool _loggedIn = FirebaseAuth.instance.currentUser != null;
+  bool _loggedIn = AuthService.instance().currentUser != null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Home"),
-          backgroundColor: const Color.fromARGB(255, 32, 255, 170),
-          actions: [
-            if (_loggedIn == true)
-              IconButton(
-                onPressed: () {
+      appBar: AppBar(
+        title: const Text("Notes"),
+        backgroundColor: const Color.fromARGB(255, 32, 255, 170),
+        actions: [
+          if (_loggedIn == true)
+            IconButton(
+              onPressed: () {
+                try {
                   showLogoutDialog(context).then(
                     (value) => {
-                      debugPrint(value.toString()),
-                      if (value == true) logout(),
+                      if (value == true)
+                        {
+                          AuthService.instance().logout().then(
+                                (value) => {popUpFromBottom("Logout Successful", context)},
+                              ),
+                          setState(() {
+                              _loggedIn = false;
+                            },
+                          ),
+                        },
                     },
                   );
+                } catch (e) {
+                  popUpFromBottom(e.toString(), context);
+                }
+              },
+              icon: const Icon(Icons.logout),
+            ),
+          if (_loggedIn == false)
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(loginRoute);
+              },
+              icon: const Icon(Icons.login),
+            ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Welcome to Notes"),
+            if (_loggedIn == true)
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(homeRoute);
                 },
-                icon: const Icon(Icons.logout),
+                child: const Text("Add Note"),
               ),
             if (_loggedIn == false)
-              IconButton(
+              TextButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(loginRoute, (route) => false);
+                  Navigator.of(context).pushNamed(loginRoute);
                 },
-                icon: const Icon(Icons.login),
+                child: const Text("Login"),
               ),
           ],
         ),
-        body: const Center(child: Text("Home")));
-  }
-
-  void logout() {
-    FirebaseAuth.instance.signOut().then(
-          (value) => {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Logged out successfully.'),
-              ),
-            ),
-          },
-        );
-    setState(() {
-      _loggedIn = false;
-    });
+      ),
+    );
   }
 }
 

@@ -1,6 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notes/constants/routes.dart';
+import 'package:notes/services/auth/auth_exceptions.dart';
+import 'package:notes/services/auth/auth_service.dart';
+import 'package:notes/utils/functions.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -29,11 +31,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(homeRoute, (route) => false);
-    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -44,10 +41,7 @@ class _LoginViewState extends State<LoginView> {
           TextField(
             controller: _email,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Email Address',
-            ),
+            decoration: const InputDecoration(border: OutlineInputBorder(), labelText: 'Email Address'),
           ),
           TextField(
             controller: _password,
@@ -61,58 +55,54 @@ class _LoginViewState extends State<LoginView> {
           ),
           TextButton(
             onPressed: () async {
-              // through an exception for testing
-
               if (_email.text.isEmpty || _password.text.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Please fill in all fields'),
-                  ),
-                );
+                popUpFromBottom('Please fill in all fields', context);
                 return;
               }
               try {
-                await FirebaseAuth.instance
-                    .signInWithEmailAndPassword(
+                await AuthService.instance()
+                    .login(
                       email: _email.text,
                       password: _password.text,
                     )
                     .then((value) => {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Login successfully'),
-                            ),
-                          ),
-                          _email.text = '',
-                          _password.text = '',
-                          // focus out
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              homeRoute, (route) => false)
+                          if (AuthService.instance().currentUser?.isEmailVerified == false)
+                            {
+                              popUpFromBottom("Please verify your email address", context),
+                              AuthService.instance().sendEmailVerification(),
+                              AuthService.instance().logout(),
+                              Navigator.of(context).pushNamed(verifyEmailRoute),
+                            }
+                          else
+                            {popUpFromBottom("Login successful", context), Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, (route) => false)}
                         });
-              } on FirebaseAuthException catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      // capitalize the error code and replace "-" with " "
-                      'Login failed: ${e.code[0].toUpperCase() + e.code.substring(1).replaceAll("-", " ")}',
-                    ),
-                  ),
-                );
+              } on InvalidEmailAuthException {
+                popUpFromBottom("Invalid Email", context);
+              } on WrongPasswordAuthException {
+                popUpFromBottom("Wrong Password", context);
+              } on UserNotFoundAuthException {
+                popUpFromBottom("User Not Found", context);
+              } on GeneralAuthException {
+                popUpFromBottom("Login Failed", context);
               } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Error: ${e.toString()}")),
-                );
+                popUpFromBottom("Error: ${e.toString()}", context);
               }
             },
             child: const Text('Login'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil(registerRoute, (route) => false);
+              Navigator.of(context).pushNamed(registerRoute);
             },
             child: const Text('No account? Register here'),
           ),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, (route) => false);
+              },
+              style:
+                  TextButton.styleFrom(foregroundColor: const Color.fromARGB(255, 0, 0, 0), backgroundColor: const Color.fromARGB(255, 32, 255, 170)),
+              child: const Text("Go Home")),
         ],
       ),
     );
